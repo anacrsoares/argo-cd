@@ -1,23 +1,23 @@
 apiVersion: "argoproj.io/v1alpha1"
 kind: Application
 metadata:
-  name: ${name}
-  namespace: cicd
+  name: grafana
+  namespace: argocd
   finalizers:
   - resources-finalizer.argocd.argoproj.io
 spec:
-  project: big-data
+  project: anagrafana
   source:
-    repoURL: ${helm_repo_url}
-    targetRevision: ${helm_chart_version}
-    chart: ${helm_chart_name}
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 4.0.0
+    chart: grafana
     helm:
       version: v3
       values: |
         ${values}
   destination:
     server: https://kubernetes.default.svc
-    namespace: ${namespace}
+    namespace: anagrafana
   syncPolicy:
     automated:
       prune: true
